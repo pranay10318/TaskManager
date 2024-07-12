@@ -4,7 +4,8 @@ const {
   getUserTasks, 
   getUserOrganizations, 
   getUserSession,
-  registerForOrganization
+  registerForOrganization,
+  switchOrganization
 } = require('../controller/UserController');
 const {isAuthenticated} = require('../utils/jwt');
 
@@ -24,5 +25,8 @@ router.get('/:id/session', isAuthenticated, getUserSession);
 
 // Register for an Organization
 router.post('/register-org', isAuthenticated, registerForOrganization);
+
+// Switch Organization i.e. change session to other organization
+router.put('/switch-org', isAuthenticated, switchOrganization);
 
 module.exports = router;

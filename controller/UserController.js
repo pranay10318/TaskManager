@@ -63,10 +63,36 @@ const registerForOrganization = async (req, res) => {
   }
 };
 
+const switchOrganization = async (req, res) => {
+    try {
+        const {userId, orgId} = req.body;
+        const session = await Session.findOne({where: {userId}});
+        console.log("session: " + session);
+        // can also add checks for user and org exists or not   but will through error if invalid(forein key constraint)
+        if(!session) {
+            const response = await Session.create({
+                userId,
+                orgId
+            });
+            return res.json({message: "Switched for the first time", response});
+        }
+        if(session && session.orgId === orgId) {
+            return res.json({message: "You are already in the same org."})
+        }
+        
+        const response = await Session.update({orgId}, {where: {userId}});
+        res.json({message: "Switched Organization", response});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error: "Invalid User or Organization"})
+    }
+}
+
 module.exports = {
   getUserDetails,
   getUserTasks,
   getUserOrganizations,
   getUserSession,
   registerForOrganization,
+  switchOrganization
 };
