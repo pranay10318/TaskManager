@@ -1,13 +1,13 @@
 const express = require('express');
-const { 
-  getUserDetails, 
-  getUserTasks, 
-  getUserOrganizations, 
+const {
+  getUserDetails,
+  getUserTasks,
+  getUserOrganizations,
   getUserSession,
   registerForOrganization,
   switchOrganization
 } = require('../controller/UserController');
-const {isAuthenticated} = require('../utils/jwt');
+const { isAuthenticated } = require('../utils/jwt');
 
 const router = express.Router();
 
